@@ -1,0 +1,31 @@
+{
+  "name": "web-tetris",
+  "version": "1.0.0",
+  "description": "phaser3 tetris",
+  "source": "src/index.html",
+  "browserslist": "> 0.5%, last 2 versions, not dead",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "parcel",
+    "build": "parcel build --public-url ./",
+    "predeploy": "rm -rf dist && npm run build",
+    "deploy": "gh-pages -d dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SazFirst/web-tetris.git"
+  },
+  "author": "saz",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SazFirst/web-tetris/issues"
+  },
+  "homepage": "https://github.com/SazFirst/web-tetris#readme",
+  "dependencies": {
+    "phaser": "^3.60.0"
+  },
+  "devDependencies": {
+    "gh-pages": "^6.0.0",
+    "parcel": "^2.9.3"
+  }
+}
