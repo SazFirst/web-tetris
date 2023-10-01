@@ -12,20 +12,26 @@ export default class TetrominoFactory {
         this.board = board;
 
         this.tetrominoBluePrint = [
-            [TetrominoI, this.scene.add.group({ defaultKey: 'sky_unit', maxSize: 200 })],
-            [TetrominoO, this.scene.add.group({ defaultKey: 'yellow_unit', maxSize: 200 })],
-            [TetrominoT, this.scene.add.group({ defaultKey: 'purple_unit', maxSize: 200 })],
-            [TetrominoJ, this.scene.add.group({ defaultKey: 'blue_unit', maxSize: 200 })],
-            [TetrominoL, this.scene.add.group({ defaultKey: 'orange_unit', maxSize: 200 })],
-            [TetrominoS, this.scene.add.group({ defaultKey: 'green_unit', maxSize: 200 })],
-            [TetrominoZ, this.scene.add.group({ defaultKey: 'red_unit', maxSize: 200 })],
+            [TetrominoI, this.scene.add.group({ defaultKey: 'sky_unit', maxSize: 200 }), this.scene.add.image(650, 105, 'silhouette_i').setVisible(false)],
+            [TetrominoO, this.scene.add.group({ defaultKey: 'yellow_unit', maxSize: 200 }), this.scene.add.image(650, 105, 'silhouette_o').setVisible(false)],
+            [TetrominoT, this.scene.add.group({ defaultKey: 'purple_unit', maxSize: 200 }), this.scene.add.image(650, 105, 'silhouette_t').setVisible(false)],
+            [TetrominoJ, this.scene.add.group({ defaultKey: 'blue_unit', maxSize: 200 }), this.scene.add.image(650, 105, 'silhouette_j').setVisible(false)],
+            [TetrominoL, this.scene.add.group({ defaultKey: 'orange_unit', maxSize: 200 }), this.scene.add.image(650, 105, 'silhouette_l').setVisible(false)],
+            [TetrominoS, this.scene.add.group({ defaultKey: 'green_unit', maxSize: 200 }), this.scene.add.image(650, 105, 'silhouette_s').setVisible(false)],
+            [TetrominoZ, this.scene.add.group({ defaultKey: 'red_unit', maxSize: 200 }), this.scene.add.image(650, 105, 'silhouette_z').setVisible(false)],
         ];
+
+        this.randomIndex = Phaser.Math.Between(0, this.tetrominoBluePrint.length - 1);
     }
 
-    generateRandom() {
-        const randomIndex = Phaser.Math.Between(0, this.tetrominoBluePrint.length - 1);
-        const targetClass = this.tetrominoBluePrint[randomIndex][0];
-        const targetColorPool = this.tetrominoBluePrint[randomIndex][1];
+    getNextSilhouette() {
+        return this.tetrominoBluePrint[this.randomIndex][2];
+    }
+
+    generate() {
+        const targetClass = this.tetrominoBluePrint[this.randomIndex][0];
+        const targetColorPool = this.tetrominoBluePrint[this.randomIndex][1];
+        this.randomIndex = Phaser.Math.Between(0, this.tetrominoBluePrint.length - 1);
 
         return new targetClass(this.board, targetColorPool);
     }

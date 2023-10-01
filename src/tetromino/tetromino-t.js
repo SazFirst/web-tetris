@@ -1,4 +1,4 @@
-import Point from "../point.js";
+import Point from "../logic/point.js";
 import Tetromino from "./tetromino.js";
 
 export default class TetrominoT extends Tetromino {

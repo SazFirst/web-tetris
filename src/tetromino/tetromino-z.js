@@ -1,4 +1,4 @@
-import Point from "../point.js";
+import Point from "../logic/point.js";
 import Tetromino from "./tetromino.js";
 
 export default class TetrominoZ extends Tetromino {
@@ -9,6 +9,6 @@ export default class TetrominoZ extends Tetromino {
             [new Point(0, 0), new Point(0, 1), new Point(1, 1), new Point(1, 2)]
         ];
 
-        super(new Point(4, 17), board, unitPool, possibleShape);
+        super(new Point(4, 18), board, unitPool, possibleShape);
     }
 }

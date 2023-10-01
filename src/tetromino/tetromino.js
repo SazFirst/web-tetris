@@ -1,4 +1,4 @@
-import Point from "../point.js";
+import Point from "../logic/point.js";
 
 export default class Tetromino {
     constructor(initialPosition, board, unitPool, possibleShape) {
@@ -14,7 +14,7 @@ export default class Tetromino {
         }
     }
 
-    createOnBoard() {
+    isCreatable() {
         let isCreatable = true;
 
         for (const position of this.positions) {
@@ -23,14 +23,16 @@ export default class Tetromino {
             }
         }
 
-        if (isCreatable) {
-            for (const position of this.positions) {
-                let newUnit = this.unitPool.get();
-                newUnit.setActive(true);
-                newUnit.setVisible(true);
-                newUnit.setPosition(position.x * 64 + 112, 1488 - position.y * 64);
-                this.units.push(newUnit);
-            }
+        return isCreatable;
+    }
+
+    createOnBoard() {
+        for (const position of this.positions) {
+            let newUnit = this.unitPool.get();
+            newUnit.setActive(true);
+            newUnit.setVisible(true);
+            newUnit.setPosition(position.x * 64 + 112, 1488 - position.y * 64);
+            this.units.push(newUnit);
         }
     }
 
