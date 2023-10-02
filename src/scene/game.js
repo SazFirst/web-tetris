@@ -86,7 +86,6 @@ export default class Game extends Phaser.Scene {
 
         this.add.text(810, 50, 'NEXT', { fontSize: 48, fontFamily: 'Arial' });
         this.add.text(810, 285, 'NEXT', { fontSize: 48, fontFamily: 'Arial' });
-        this.nextSilhouette = this.tetrominoFactory.getNextSilhouette().setVisible(true);
     }
 
     update(time, delta) {
@@ -132,8 +131,6 @@ export default class Game extends Phaser.Scene {
         }
 
         this.player = this.tetrominoFactory.generate();
-        this.nextSilhouette.setVisible(false);
-        this.nextSilhouette = this.tetrominoFactory.getNextSilhouette().setVisible(true);
 
         this.player.createOnBoard();
         if (!this.player.isCreatable()) {
