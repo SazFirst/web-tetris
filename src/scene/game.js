@@ -22,6 +22,8 @@ export default class Game extends Phaser.Scene {
     preload() {
         this.load.image('game_background', 'assets/game_background.png');
         this.load.image('start_button', 'assets/game_start_button.png');
+        this.load.image('hold_button', 'assets/hold_button.png');
+        this.load.image('rotate_button', 'assets/rotate_button.png');
         this.load.image('game_over', 'assets/game_over.png');
 
         this.load.image('sky_unit', 'assets/sky_unit.png');
@@ -39,6 +41,8 @@ export default class Game extends Phaser.Scene {
         this.load.image('silhouette_l', 'assets/silhouette_l.png');
         this.load.image('silhouette_s', 'assets/silhouette_s.png');
         this.load.image('silhouette_z', 'assets/silhouette_z.png');
+
+        this.load.plugin('rexvirtualjoystickplugin', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexvirtualjoystickplugin.min.js', true);
     }
 
     create() {
@@ -91,6 +95,53 @@ export default class Game extends Phaser.Scene {
 
         this.add.text(810, 50, 'HOLD', { fontSize: 48, fontFamily: 'Arial' });
         this.add.text(810, 285, 'NEXT', { fontSize: 48, fontFamily: 'Arial' });
+
+        this.add.image(780, 945, 'hold_button')
+            .setOrigin(0, 0)
+            .setInteractive().on('pointerdown', () => {
+                this.player = this.tetrominoFactory.hold(this.player);
+                this.player.createOnBoard();
+            });
+
+        this.add.image(780, 1265, 'rotate_button')
+            .setOrigin(0, 0)
+            .setInteractive().on('pointerdown', () => {
+                this.player.rotate();
+            });
+
+        this.joyStickControlDelay = 100;
+        this.joyStickControlTimer = 0;
+        this.joyStick = this.plugins
+            .get('rexvirtualjoystickplugin')
+            .add(this, {
+                x: 250,
+                y: 1350,
+                radius: 150,
+                base: this.add.circle(0, 0, 200, 0x888888).setAlpha(0.4).setDepth(1),
+                thumb: this.add.circle(0, 0, 100, 0xcccccc).setAlpha(0.4).setDepth(1),
+                dir: '4dir',
+                forceMin: 75
+            });
+    }
+
+    checkJoyStickControl() {
+        if (this.joyStick.left) {
+            if (this.player.isMovable(this.directionLeft)) {
+                this.player.moveOnBoard(this.directionLeft);
+            }
+        }
+
+        if (this.joyStick.right) {
+            if (this.player.isMovable(this.directionRight)) {
+                this.player.moveOnBoard(this.directionRight);
+            }
+        }
+
+        if (this.joyStick.down) {
+            if (this.player.isMovable(this.directionDown)) {
+                this.player.moveOnBoard(this.directionDown);
+            }
+        }
     }
 
     update(time, delta) {
@@ -98,13 +149,12 @@ export default class Game extends Phaser.Scene {
             return;
         }
 
-        this.currentDownTimer += delta;
-
         if (this.difficultySystem.checkDifficultyUp(delta)) {
             console.log(time);
             this.downInterval = this.difficultySystem.getDownInterval();
         }
 
+        this.currentDownTimer += delta;
         if (this.currentDownTimer > this.downInterval) {
             this.currentDownTimer -= this.downInterval;
 
@@ -114,6 +164,13 @@ export default class Game extends Phaser.Scene {
             else {
                 this.nextTetromino();
             }
+        }
+
+        this.joyStickControlTimer += delta;
+        if (this.joyStickControlTimer > this.joyStickControlDelay) {
+            this.joyStickControlTimer -= this.joyStickControlDelay;
+
+            this.checkJoyStickControl();
         }
     }
 
