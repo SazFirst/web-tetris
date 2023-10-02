@@ -84,7 +84,12 @@ export default class Game extends Phaser.Scene {
             }
         });
 
-        this.add.text(810, 50, 'NEXT', { fontSize: 48, fontFamily: 'Arial' });
+        this.input.keyboard.on('keydown-SHIFT', event => {
+            this.player = this.tetrominoFactory.hold(this.player);
+            this.player.createOnBoard();
+        });
+
+        this.add.text(810, 50, 'HOLD', { fontSize: 48, fontFamily: 'Arial' });
         this.add.text(810, 285, 'NEXT', { fontSize: 48, fontFamily: 'Arial' });
     }
 
@@ -131,8 +136,8 @@ export default class Game extends Phaser.Scene {
         }
 
         this.player = this.tetrominoFactory.generate();
-
         this.player.createOnBoard();
+
         if (!this.player.isCreatable()) {
             this.stopGame();
         }

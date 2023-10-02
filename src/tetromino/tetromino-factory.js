@@ -31,10 +31,13 @@ export default class TetrominoFactory {
         this.nextSilhouetteQueue = [];
 
         // 초기 실루엣 큐 채우기
-        for (const displayMeta of this.nextSilhouetteQueueDisplayMeta) {
+        for (let displayMeta of this.nextSilhouetteQueueDisplayMeta) {
             const randomIndex = Phaser.Math.Between(0, this.tetrominoBluePrint.length - 1);
             this.nextSilhouetteQueue.push({ index: randomIndex, image: this.scene.add.image(displayMeta.xPosition, displayMeta.yPosition, this.tetrominoBluePrint[randomIndex][2]) });
         }
+
+        this.holdIndex = null;
+        this.holdSilhouette = null;
     }
 
     generate() {
@@ -48,7 +51,7 @@ export default class TetrominoFactory {
         // 큐에 다음 테트로미노 추가
         const newRandomIndex = Phaser.Math.Between(0, this.tetrominoBluePrint.length - 1);
         this.nextSilhouetteQueue.push({ index: newRandomIndex, image: this.scene.add.image(0, 0, this.tetrominoBluePrint[newRandomIndex][2]) });
-        
+
         // 화면에 보여지는 이미지 재정렬
         nextTetromino.image.destroy();
         for (let i = 0; i < this.nextSilhouetteQueue.length; i++) {
@@ -58,5 +61,35 @@ export default class TetrominoFactory {
         }
 
         return new targetClass(this.board, targetColorPool);
+    }
+
+    hold(tetromino) {
+        console.log(`holdIndex = ${this.holdIndex}`);
+
+        let sourceTetrominoIndex;
+        for (let i = 0; i < this.tetrominoBluePrint.length; i++) {
+            if (tetromino instanceof this.tetrominoBluePrint[i][0]) {
+                sourceTetrominoIndex = i;
+            }
+        }
+
+        tetromino.clearImage();
+
+        if (this.holdIndex != null) {
+            const targetClass = this.tetrominoBluePrint[this.holdIndex][0];
+            const targetColorPool = this.tetrominoBluePrint[this.holdIndex][1];
+            this.holdIndex = sourceTetrominoIndex;
+
+            this.holdSilhouette.setActive(false);
+            this.holdSilhouette.setVisible(false);
+            this.holdSilhouette = this.scene.add.image(875, 155, this.tetrominoBluePrint[sourceTetrominoIndex][2]);
+
+            return new targetClass(this.board, targetColorPool);
+        } else {
+            this.holdIndex = sourceTetrominoIndex;
+            this.holdSilhouette = this.scene.add.image(875, 155, this.tetrominoBluePrint[sourceTetrominoIndex][2]);
+
+            return this.generate();
+        }
     }
 }

@@ -92,4 +92,11 @@ export default class Tetromino {
             this.units[i].setPosition(this.positions[i].x * 64 + 112, 1488 - this.positions[i].y * 64);
         }
     }
+
+    clearImage() {
+        for (const unit of this.units) {
+            unit.setActive(false);
+            unit.setVisible(false);
+        }
+    }
 }
