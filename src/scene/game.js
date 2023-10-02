@@ -44,7 +44,7 @@ export default class Game extends Phaser.Scene {
     create() {
         this.playing = true;
 
-        this.add.image(400, 800, 'game_background');
+        this.add.image(0, 0, 'game_background').setOrigin(0, 0);
 
         this.red_units = this.add.group({
             defaultKey: 'red_unit',
@@ -84,7 +84,8 @@ export default class Game extends Phaser.Scene {
             }
         });
 
-        this.add.text(520, 60, 'NE\nXT', { fontSize: 48 });
+        this.add.text(810, 50, 'NEXT', { fontSize: 48, fontFamily: 'Arial' });
+        this.add.text(810, 285, 'NEXT', { fontSize: 48, fontFamily: 'Arial' });
         this.nextSilhouette = this.tetrominoFactory.getNextSilhouette().setVisible(true);
     }
 
@@ -146,9 +147,9 @@ export default class Game extends Phaser.Scene {
 
         const graphics = this.add.graphics();
         graphics.fillStyle(0x000000, 0.8);
-        graphics.fillRect(0, 0, 800, 1600);
+        graphics.fillRect(0, 0, 1200, 1600);
         graphics.setBlendMode(Phaser.BlendModes.DARKEN);
 
-        this.add.image(400, 700, 'game_over');
+        this.add.image(500, 800, 'game_over');
     }
 }

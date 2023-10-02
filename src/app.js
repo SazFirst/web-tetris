@@ -3,7 +3,7 @@ import MainMenu from "./scene/main-menu.js";
 
 const config = {
     type: Phaser.AUTO,
-    width: 800,
+    width: 1000,
     height: 1600,
     scene: [MainMenu, Game],
     scale: {

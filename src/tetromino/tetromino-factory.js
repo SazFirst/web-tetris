@@ -12,14 +12,19 @@ export default class TetrominoFactory {
         this.board = board;
 
         this.tetrominoBluePrint = [
-            [TetrominoI, this.scene.add.group({ defaultKey: 'sky_unit', maxSize: 200 }), this.scene.add.image(650, 105, 'silhouette_i').setVisible(false)],
-            [TetrominoO, this.scene.add.group({ defaultKey: 'yellow_unit', maxSize: 200 }), this.scene.add.image(650, 105, 'silhouette_o').setVisible(false)],
-            [TetrominoT, this.scene.add.group({ defaultKey: 'purple_unit', maxSize: 200 }), this.scene.add.image(650, 105, 'silhouette_t').setVisible(false)],
-            [TetrominoJ, this.scene.add.group({ defaultKey: 'blue_unit', maxSize: 200 }), this.scene.add.image(650, 105, 'silhouette_j').setVisible(false)],
-            [TetrominoL, this.scene.add.group({ defaultKey: 'orange_unit', maxSize: 200 }), this.scene.add.image(650, 105, 'silhouette_l').setVisible(false)],
-            [TetrominoS, this.scene.add.group({ defaultKey: 'green_unit', maxSize: 200 }), this.scene.add.image(650, 105, 'silhouette_s').setVisible(false)],
-            [TetrominoZ, this.scene.add.group({ defaultKey: 'red_unit', maxSize: 200 }), this.scene.add.image(650, 105, 'silhouette_z').setVisible(false)],
+            [TetrominoI, this.scene.add.group({ defaultKey: 'sky_unit', maxSize: 200 }), this.scene.add.image(875, 160, 'silhouette_i').setVisible(false)],
+            [TetrominoO, this.scene.add.group({ defaultKey: 'yellow_unit', maxSize: 200 }), this.scene.add.image(875, 160, 'silhouette_o').setVisible(false)],
+            [TetrominoT, this.scene.add.group({ defaultKey: 'purple_unit', maxSize: 200 }), this.scene.add.image(875, 160, 'silhouette_t').setVisible(false)],
+            [TetrominoJ, this.scene.add.group({ defaultKey: 'blue_unit', maxSize: 200 }), this.scene.add.image(875, 160, 'silhouette_j').setVisible(false)],
+            [TetrominoL, this.scene.add.group({ defaultKey: 'orange_unit', maxSize: 200 }), this.scene.add.image(875, 160, 'silhouette_l').setVisible(false)],
+            [TetrominoS, this.scene.add.group({ defaultKey: 'green_unit', maxSize: 200 }), this.scene.add.image(875, 160, 'silhouette_s').setVisible(false)],
+            [TetrominoZ, this.scene.add.group({ defaultKey: 'red_unit', maxSize: 200 }), this.scene.add.image(875, 160, 'silhouette_z').setVisible(false)],
         ];
+
+        this.scene.add.image(875, 400, 'silhouette_i');
+        this.scene.add.image(875, 540, 'silhouette_i');
+        this.scene.add.image(875, 680, 'silhouette_i');
+        this.scene.add.image(875, 820, 'silhouette_i');
 
         this.randomIndex = Phaser.Math.Between(0, this.tetrominoBluePrint.length - 1);
     }

@@ -10,8 +10,8 @@ export default class MainMenu extends Phaser.Scene {
     }
 
     create() {
-        this.add.image(400, 800, 'main_menu');
-        this.add.image(400, 700, 'start_button')
+        this.add.image(0, 0, 'main_menu').setOrigin(0, 0);
+        this.add.image(500, 800, 'start_button')
             .setInteractive().on('pointerdown', () => {
                 this.scene.start('game');
             });
