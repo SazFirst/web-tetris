@@ -50,11 +50,6 @@ export default class Game extends Phaser.Scene {
 
         this.add.image(0, 0, 'game_background').setOrigin(0, 0);
 
-        this.red_units = this.add.group({
-            defaultKey: 'red_unit',
-            maxSize: 200
-        });
-
         this.board = new Board();
         this.tetrominoFactory = new TetrominoFactory(this, this.board);
 
@@ -152,6 +147,8 @@ export default class Game extends Phaser.Scene {
         if (!this.playing) {
             return;
         }
+
+        this.scoreSystem.addTime(delta);
 
         if (this.difficultySystem.checkDifficultyUp(delta)) {
             console.log(time);
