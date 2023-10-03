@@ -2,8 +2,9 @@ export default class difficultySystem {
 
     constructor() {
         this.difficulty = 2;
-        this.difficultyUpInterval = 120 *1000;
+        this.difficultyUpInterval = 120 * 1000;
         this.playTime = 0;
+        this.decisionTime = 600;
     }
 
     getDownInterval() {

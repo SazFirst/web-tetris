@@ -69,12 +69,14 @@ export default class Game extends Phaser.Scene {
         this.input.keyboard.on('keydown-LEFT', event => {
             if (this.player.isMovable(this.directionLeft)) {
                 this.player.moveOnBoard(this.directionLeft);
+                this.difficultySystem.decisionTime = 600;
             }
         });
 
         this.input.keyboard.on('keydown-RIGHT', event => {
             if (this.player.isMovable(this.directionRight)) {
                 this.player.moveOnBoard(this.directionRight);
+                this.difficultySystem.decisionTime = 600;
             }
         });
 
@@ -128,12 +130,14 @@ export default class Game extends Phaser.Scene {
         if (this.joyStick.left) {
             if (this.player.isMovable(this.directionLeft)) {
                 this.player.moveOnBoard(this.directionLeft);
+                this.difficultySystem.decisionTime = 600;
             }
         }
 
         if (this.joyStick.right) {
             if (this.player.isMovable(this.directionRight)) {
                 this.player.moveOnBoard(this.directionRight);
+                this.difficultySystem.decisionTime = 600;
             }
         }
 
@@ -161,9 +165,6 @@ export default class Game extends Phaser.Scene {
             if (this.player.isMovable(this.directionDown)) {
                 this.player.moveOnBoard(this.directionDown);
             }
-            else {
-                this.nextTetromino();
-            }
         }
 
         this.joyStickControlTimer += delta;
@@ -171,6 +172,15 @@ export default class Game extends Phaser.Scene {
             this.joyStickControlTimer -= this.joyStickControlDelay;
 
             this.checkJoyStickControl();
+        }
+
+        if (!this.player.isMovable(this.directionDown)) {
+            if (this.difficultySystem.decisionTime > 0) {
+                this.difficultySystem.decisionTime -= delta;
+            } else {
+                this.nextTetromino();
+                this.difficultySystem.decisionTime = 600;
+            }
         }
     }
 
