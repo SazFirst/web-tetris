@@ -69,12 +69,14 @@ export default class Game extends Phaser.Scene {
         this.input.keyboard.on('keydown-LEFT', event => {
             if (this.player.isMovable(this.directionLeft)) {
                 this.player.moveOnBoard(this.directionLeft);
+                this.difficultySystem.decisionTime = 600;
             }
         });
 
         this.input.keyboard.on('keydown-RIGHT', event => {
             if (this.player.isMovable(this.directionRight)) {
                 this.player.moveOnBoard(this.directionRight);
+                this.difficultySystem.decisionTime = 600;
             }
         });
 
@@ -96,14 +98,14 @@ export default class Game extends Phaser.Scene {
         this.add.text(810, 50, 'HOLD', { fontSize: 48, fontFamily: 'Arial' });
         this.add.text(810, 285, 'NEXT', { fontSize: 48, fontFamily: 'Arial' });
 
-        this.add.image(780, 945, 'hold_button')
+        this.holdButton = this.add.image(780, 945, 'hold_button')
             .setOrigin(0, 0)
             .setInteractive().on('pointerdown', () => {
                 this.player = this.tetrominoFactory.hold(this.player);
                 this.player.createOnBoard();
             });
 
-        this.add.image(780, 1265, 'rotate_button')
+        this.rotateButton = this.add.image(780, 1265, 'rotate_button')
             .setOrigin(0, 0)
             .setInteractive().on('pointerdown', () => {
                 this.player.rotate();
@@ -128,12 +130,14 @@ export default class Game extends Phaser.Scene {
         if (this.joyStick.left) {
             if (this.player.isMovable(this.directionLeft)) {
                 this.player.moveOnBoard(this.directionLeft);
+                this.difficultySystem.decisionTime = 600;
             }
         }
 
         if (this.joyStick.right) {
             if (this.player.isMovable(this.directionRight)) {
                 this.player.moveOnBoard(this.directionRight);
+                this.difficultySystem.decisionTime = 600;
             }
         }
 
@@ -161,9 +165,6 @@ export default class Game extends Phaser.Scene {
             if (this.player.isMovable(this.directionDown)) {
                 this.player.moveOnBoard(this.directionDown);
             }
-            else {
-                this.nextTetromino();
-            }
         }
 
         this.joyStickControlTimer += delta;
@@ -171,6 +172,15 @@ export default class Game extends Phaser.Scene {
             this.joyStickControlTimer -= this.joyStickControlDelay;
 
             this.checkJoyStickControl();
+        }
+
+        if (!this.player.isMovable(this.directionDown)) {
+            if (this.difficultySystem.decisionTime > 0) {
+                this.difficultySystem.decisionTime -= delta;
+            } else {
+                this.nextTetromino();
+                this.difficultySystem.decisionTime = 600;
+            }
         }
     }
 
@@ -203,12 +213,15 @@ export default class Game extends Phaser.Scene {
     stopGame() {
         this.playing = false;
         this.input.keyboard.removeAllListeners();
+        this.joyStick.setEnable(false);
+        this.holdButton.disableInteractive();
+        this.rotateButton.disableInteractive();
 
         const graphics = this.add.graphics();
         graphics.fillStyle(0x000000, 0.8);
-        graphics.fillRect(0, 0, 1200, 1600);
+        graphics.fillRect(0, 0, 1200, 1600).setDepth(2);
         graphics.setBlendMode(Phaser.BlendModes.DARKEN);
 
-        this.add.image(500, 800, 'game_over');
+        this.add.image(500, 800, 'game_over').setDepth(2);
     }
 }
