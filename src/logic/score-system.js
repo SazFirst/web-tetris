@@ -3,13 +3,21 @@ export default class ScoreSystem {
         this.score = 0;
         this.scene = scene;
 
-        this.scene.add.text(185, 55, 'Score', { fontSize: 48, fontFamily: 'Arial' });
-        this.sceneTextTotalScore = this.scene.add.text(310, 110, 0, { fontSize: 48, fontFamily: 'Arial', rtl: true });
+        this.scene.add.text(230, 55, 'Score', { fontSize: 48, fontFamily: 'Arial' });
+        this.sceneTextTotalScore = this.scene.add.text(355, 110, 0, { fontSize: 48, fontFamily: 'Arial', rtl: true });
 
         this.combo = 0;
 
-        this.scene.add.text(450, 55, 'Combo', { fontSize: 48, fontFamily: 'Arial' });
-        this.sceneTextComboCount = this.scene.add.text(605, 110, 0, { fontSize: 48, fontFamily: 'Arial', rtl: true });
+        this.scene.add.text(390, 55, 'Combo', { fontSize: 48, fontFamily: 'Arial' });
+        this.sceneTextComboCount = this.scene.add.text(545, 110, 0, { fontSize: 48, fontFamily: 'Arial', rtl: true });
+
+        this.clearLine = 0;
+        this.scene.add.text(100, 55, 'Line', { fontSize: 48, fontFamily: 'Arial' });
+        this.sceneTextClearLine = this.scene.add.text(190, 110, 0, { fontSize: 48, fontFamily: 'Arial', rtl: true });
+
+        this.playTime = 0;
+        this.scene.add.text(590, 55, 'Time', { fontSize: 48, fontFamily: 'Arial' });
+        this.sceneTextPlayTime = this.scene.add.text(700, 110, 0, { fontSize: 48, fontFamily: 'Arial', rtl: true });
     }
 
     addScore() {
@@ -18,6 +26,8 @@ export default class ScoreSystem {
     }
 
     addCombo() {
+        this.clearLine++;
+        this.sceneTextClearLine.setText(this.clearLine);
         this.combo++;
         this.sceneTextComboCount.setText(this.combo);
     }
@@ -28,5 +38,18 @@ export default class ScoreSystem {
         }
 
         this.sceneTextComboCount.setText(this.combo);
+    }
+
+    addTime(delta) {
+        this.playTime += delta;
+
+        let seconds = parseInt(this.playTime / 1000);
+
+        let min = parseInt((seconds % 3600) / 60);
+        min = min < 10 ? '0' + min : min;
+        let sec = seconds % 60;
+        sec = (sec < 10) ? '0' + sec : sec;
+
+        this.sceneTextPlayTime.setText(`${min}:${sec}`);
     }
 }
